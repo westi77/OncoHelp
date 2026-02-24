@@ -33,7 +33,8 @@ OncoHelp — прототип AI-ассистента для проверки с
 - не назначает и не изменяет лечение;
 - используется исключительно для анализа и пояснения информации.
 
-##
+## Используемые рекомендации
+
 Cloud storage: https://drive.google.com/drive/folders/14ftAMMOS7OhVQ7Jvz6zghlqVo_WggDHx?usp=drive_link
 
 Структура:
