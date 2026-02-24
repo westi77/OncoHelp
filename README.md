@@ -21,10 +21,11 @@ OncoHelp — прототип AI-ассистента для проверки с
 - Telegram Bot API
 - n8n
 - OpenRouter API
-- Языковая модель: ...
+- Dropbox API
+- Языковая модель: 
 
 ## Статус проекта
-Прототип.
+Бета-версия
 
 ## Ограничения
 - система не является медицинским изделием;
@@ -32,4 +33,19 @@ OncoHelp — прототип AI-ассистента для проверки с
 - не назначает и не изменяет лечение;
 - используется исключительно для анализа и пояснения информации.
 
+##
+Cloud storage: https://drive.google.com/drive/folders/14ftAMMOS7OhVQ7Jvz6zghlqVo_WggDHx?usp=drive_link
+
+Структура:
+```
+├──special_russco
+|   ├──Features_of_drug_therapy_for_solid_tumors_during_pregnancy.pdf
+|   └──Features_of_antitumor_drug_treatment_in_elderly_patients.pdf
+├── russco
+│   ├── Uterine_body_cancer_and_uterine_sarcomas_1.pdf
+│   └── ...
+└── minzdrav
+    ├── Waldenstrom's_macroglobulinemia.pdf
+    └── ...
+```
 Подробная документация доступна в каталоге user_guide/.
