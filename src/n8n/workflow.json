@@ -1,1 +1,3360 @@
-
+{
+  "name": "Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message",
+          "callback_query"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -2368,
+        1376
+      ],
+      "id": "255ad9e2-7288-4ce0-b84e-c187358cbe70",
+      "name": "Telegram Trigger",
+      "webhookId": "196358e8-7dad-4d79-bde9-6bdea86c4a0c",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "bf488795-6800-49f6-8592-d71c48089ae7",
+              "leftValue": "={{ $json.message?.text }}",
+              "rightValue": "/start",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1696,
+        1760
+      ],
+      "id": "1e3e9cc9-4aff-4380-9174-f3756bebf85d",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id }}",
+        "text": "=👋 Добро пожаловать в OncoHelp!  Я помогаю анализировать истории болезни и составлять планы лечения на основе официальных клинических рекомендаций Минздрава РФ.  Выберите действие:",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🚀 Начать работу",
+                    "additionalFields": {
+                      "callback_data": "start_work"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🤖 Что умеет бот",
+                    "additionalFields": {
+                      "callback_data": "about"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "💬 Обратная связь",
+                    "additionalFields": {
+                      "callback_data": "feedback"
+                    }
+                  },
+                  {
+                    "text": "🛠 Техподдержка",
+                    "additionalFields": {
+                      "callback_data": "support"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1552,
+        1520
+      ],
+      "id": "00ce5b95-3e55-4b7c-a368-8633a8428456",
+      "name": "Send a text message",
+      "webhookId": "6bb53fb2-011a-498f-9008-799a0373ef17",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "start_work",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "55e9bf43-d164-4be3-a5cd-78fe3f25f70d"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "start_work"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "8c2578ba-0692-4e6e-ab2e-247b2120f300",
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "about",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "about"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "5f37529f-2e4b-4811-9861-568ebdab576d",
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "feedback",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "feedback"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "01740bd9-53bf-4c94-b49e-575af87e8b64",
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "support",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "support"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "002a3ceb-6925-4f71-b4ed-8021e8ac2e7a",
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "role_doctor",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "role_doctor"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b3df2f7a-5bd6-493e-9d93-b7a252e251ac",
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "role_patient",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "role_patient "
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "80c74ee5-80c6-4fa9-a427-5b05fa2e14cd",
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "stop_chat",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "stop_chat"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ed8c7bfd-8db5-48b8-abb6-923baeb62cc1",
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "buffer_ready",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "buffer_ready"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "bc39e876-2e6a-49d3-9d36-13ad27d67a21",
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "chage_role",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "chage_role"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -672,
+        800
+      ],
+      "id": "2d39b8fb-a2e4-4dce-86e9-7158c5523904",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.result.chat.id }}",
+        "text": "=🤖 **Возможности OncoHelp:**  \n📄 Анализирует историю болезни в формате PDF, Word 🔬 или просто в виде текста. Определяет тип онкологии 📋 \nСоставляет план лечения на основе клинических рекомендаций Минздрава РФ 👨‍⚕️ \nАдаптирует ответ под врача или пациента  \n⚠️ _Бот носит рекомендательный характер и не заменяет очную консультацию врача-онколога._",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -128,
+        192
+      ],
+      "id": "b2a95405-242a-4f69-888f-3a6f843df214",
+      "name": "Send a text message1",
+      "webhookId": "5c0ada2f-1b6b-49ba-97ee-68e02a747b71",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id }}",
+        "text": "=🛠 Опишите вашу проблему следующим сообщением — мы ответим в ближайшее время.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -128,
+        1184
+      ],
+      "id": "2cb3f3b5-3b75-425c-9b38-78e9e3e6947f",
+      "name": "Send a text message2",
+      "webhookId": "c796f874-5901-4536-8654-2cc408700f8c",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id }}",
+        "text": "=💬 Напишите ваш отзыв следующим сообщением — мы обязательно его прочитаем.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -128,
+        992
+      ],
+      "id": "72c4ee46-b5bd-43dc-bc9d-9cad85168a9d",
+      "name": "Send a text message4",
+      "webhookId": "03aa7a93-1d97-403f-a4bb-b7b5c6a8707f",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.result.chat.id }}",
+        "text": "=📋 **Выберите роль **\n\nВрач - анализ на профессиональном языке\nПациент - анализ на простом, понятном языке\n\n__Это нужно чтобы бот адаптировал ответ под вас__",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Врач",
+                    "additionalFields": {
+                      "callback_data": "role_doctor"
+                    }
+                  },
+                  {
+                    "text": "Пациент",
+                    "additionalFields": {
+                      "callback_data": "role_patient"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -128,
+        -144
+      ],
+      "id": "3886ca24-074c-4e5b-8518-020c5645325e",
+      "name": "Send a text message5",
+      "webhookId": "46e1ce93-ccd0-4b1e-9c8b-378ee612808a",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "dab2868a-68e3-491a-803b-26949d3cec00",
+              "leftValue": "={{ $json.callback_query.data }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1920,
+        1376
+      ],
+      "id": "1461a586-8df6-43a3-943f-c9d73b146543",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id }}",
+        "text": "Спасибо за отзыв!",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -800,
+        1376
+      ],
+      "id": "cd31b5d3-5a3c-4b46-bbb7-99eb5f970026",
+      "name": "Send a text message7",
+      "webhookId": "6e133551-f304-4e5a-bd93-55a8c62f6c37",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "-1003871488822",
+        "text": "=ТехПоддержка @{{ $('Telegram Trigger').item.json.message.chat.username }}:\n{{ $('Telegram Trigger').item.json.message.text }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1024,
+        1568
+      ],
+      "id": "777d96eb-e342-4186-b275-8fff8a1e12d9",
+      "name": "Send a text message8",
+      "webhookId": "26c5cf51-a5d2-469b-9d2b-2f9d1bf9c9bd",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id }}",
+        "text": "✅ Обращение принято! Мы свяжемся с вами в ближайшее время.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -800,
+        1568
+      ],
+      "id": "e890cf52-4a87-45fb-b24e-6dea6ffa4623",
+      "name": "Send a text message9",
+      "webhookId": "6e133551-f304-4e5a-bd93-55a8c62f6c37",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const userId = String($json.callback_query.from.id);\nconst workflowStaticData = $getWorkflowStaticData('global');\nworkflowStaticData[userId + '_state'] = 'idle';\nworkflowStaticData[userId + '_role'] = 'doctor';'doctor';\n\nreturn [{ json: { \n  ...$json,\n  success: true, \n  role: 'doctor', \n  userId \n}}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -352,
+        1376
+      ],
+      "id": "b59c9e9c-c6c1-4ac8-bb83-eca3b045c799",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "jsCode": "const userId = String($json.callback_query.from.id);\nconst workflowStaticData = $getWorkflowStaticData('global');\nworkflowStaticData[userId + '_state'] = 'idle';\nworkflowStaticData[userId + '_role'] = 'patient';\n\nreturn [{ json: { \n  ...$json,\n  success: true, \n  role: 'patient', \n  userId \n}}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -352,
+        1568
+      ],
+      "id": "4bbe41b2-5c2f-42d1-9130-a0e39f5ccc21",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id }}",
+        "text": "=👨‍⚕️ Вы выбрали режим врача.\n\n📎 Прикрепите файл истории болезни в формате PDF или Word или просто отправьте текстовым сообщением(при дроблении длинного текста, не отправляйте все сразу).",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -128,
+        1376
+      ],
+      "id": "ac780c61-9836-4029-b752-abedde83d222",
+      "name": "Send a text message3",
+      "webhookId": "ecec7e79-39ce-431e-8a28-7af383cab5eb",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id }}",
+        "text": "=🙋 Вы выбрали режим пациента.\n\n📎 Прикрепите файл истории болезни в формате PDF или Word или просто отправьте текстовым сообщением(при дроблении длинного текста, не отправляйте все сразу).",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -128,
+        1568
+      ],
+      "id": "92abca4a-edb2-4fe7-ae19-84ed8a9bcbfa",
+      "name": "Send a text message10",
+      "webhookId": "ecec7e79-39ce-431e-8a28-7af383cab5eb",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const userId = String($json.callback_query.from.id);\nconst workflowStaticData = $getWorkflowStaticData('global');\nworkflowStaticData[userId + '_state'] = 'feedback';\n\nreturn [{ json: { ...$json, success: true }}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -352,
+        992
+      ],
+      "id": "d8fb9c57-a0c8-43ae-ac6a-786336a3a7b2",
+      "name": "Code in JavaScript2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const userId = String($json.callback_query.from.id);\nconst workflowStaticData = $getWorkflowStaticData('global');\nworkflowStaticData[userId + '_state'] = 'support';\n\nreturn [{ json: { ...$json, success: true }}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -352,
+        1184
+      ],
+      "id": "695ac23f-bf2c-4ae0-b183-29684dd6316b",
+      "name": "Code in JavaScript3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const userId = String($json.message.from.id);\nconst workflowStaticData = $getWorkflowStaticData('global');\nconst state = workflowStaticData[userId + '_state'] || 'idle';\n\n// Сбрасываем состояние только если это не chat\n// chat-состояние живёт до тех пор пока пользователь не нажмёт \"Завершить диалог\"\nif (state !== 'chat') {\n  workflowStaticData[userId + '_state'] = 'idle';\n}\n\nreturn [{ json: { \n  ...$json,\n  user_state: state\n}}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1472,
+        1856
+      ],
+      "id": "3ae9145d-b7e8-4c8e-a48a-ad1b7322ad03",
+      "name": "Code in JavaScript4"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.user_state }}",
+                    "rightValue": "feedback",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "73d203d4-6023-43b1-91ba-0dcb0b7c095d"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "feedback"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "91cc07b1-d839-49f2-8990-a2a761d43233",
+                    "leftValue": "={{ $json.user_state }}",
+                    "rightValue": "support",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "support"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "59b82bfe-80b6-4435-968d-6337f86edd22",
+                    "leftValue": "={{ $json.user_state }}",
+                    "rightValue": "chat",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "chat"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a8d1bce2-5cb4-4f34-a35a-aef4724b9054",
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message.document }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "document"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "416d65cd-bad4-4a71-99b2-af832cc40d44",
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message?.text }}",
+                    "rightValue": "text",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -1248,
+        1808
+      ],
+      "id": "e39ef11f-f3d1-4b4a-8e33-1a19763dd4a1",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "chatId": "-1003871488822",
+        "text": "=🛠 Обратная связь от @{{ $('Telegram Trigger').item.json.message.chat.username }}:\n{{ $('Telegram Trigger').item.json.message.text }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -1024,
+        1376
+      ],
+      "id": "0b8e5930-5157-4a74-9fd4-57afe9f71926",
+      "name": "Send a text message6",
+      "webhookId": "26c5cf51-a5d2-469b-9d2b-2f9d1bf9c9bd",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $('Telegram Trigger').item.json.message.document.file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -800,
+        2416
+      ],
+      "id": "fb817cf1-3c03-4676-b648-5652daf2f0f2",
+      "name": "Get a file",
+      "webhookId": "80aa8ea6-2a4d-4f64-88f9-0dd91f6f4be8",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.telegram.org/file/bot8400023148:AAGIYOUR_BOT_TOKEN/{{ $json.result.file_path }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        -576,
+        2416
+      ],
+      "id": "dcb8062f-2b69-4479-a1bb-1e9d395e388e",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        -128,
+        2240
+      ],
+      "id": "54742b42-21b7-4691-be68-94d34c3a3c44",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }} ?? {{ $json.message.text }}",
+        "options": {
+          "systemMessage": "=Верни ТОЛЬКО валидный JSON без пояснений и без markdown. Формат ответа:\n{\"code\": \"КОД_МКБ\", \"name\": \"НАЗВАНИЕ_НА_РУССКОМ\", \"file_key\": \"КЛЮЧ_ИЗ_СПИСКА\", \"book_key\": \"КЛЮЧ_ИЗ_КНИГ_ИЛИ_NULL\", \"special_key\": \"КЛЮЧ_ИЛИ_NULL\"}\n\nДля file_key используй ТОЛЬКО значения из этого списка(или null если ничего не подходит):\n[ \"Acute_lymphoblastic_leukemia_adults\",\n    \"Acute_lymphoblastic_leukemia_children\",\n    \"Acute_myeloid_leukemia_adults\",\n    \"Acute_myeloid_leukemia_children\",\n    \"Acute_promyelocytic_leukemia_adults\",\n    \"Acute_promyelocytic_leukemia_children\",\n    \"Aggressive_follicular_lymphomas\",\n    \"Anemia_in_malignant_neoplasms\",\n    \"Aplastic_anemia_adults\",\n    \"Aplastic_anemia_children\",\n    \"Basal_cell_carcinoma_of_the_skin\",\n    \"Bladder_cancer\",\n    \"Bone_sarcomas\",\n    \"Borderline_ovarian_tumors\",\n    \"Breast_cancer\",\n    \"Cancer_of_the_oropharynx\",\n    \"Cancer_of_the_adrenal_cortex_(adrenocortical_cancer)\",\n    \"Cancer_of_the_colon_and_rectosigmoid_junction\",\n    \"Cancer_of_the_esophagus_and_cardia\",\n    \"Cancer_of_the_kidney_parenchyma\",\n    \"Cancer_of_the_nasal_cavity_and_paranasal_sinuses\",\n    \"Cancer_of_the_urethra\",\n    \"Cancer_or_the_biliary_system\",\n    \"Cervical_cancer\",\n    \"Chronic_lymphocytic_leukemia_small_lymphocyte_lymphoma\",\n    \"Chronic_myeloid_leukemia\",\n    \"Differentiated_cancer_thyroid_gland\",\n    \"Extracranial_germinogenic_tumors\",\n    \"Follicular_lymphoma\",\n    \"Fungal_mycosis\",\n    \"Gastrointestinal_stromal_tumors\",\n    \"Germinogenic_tumors_in_men\",\n    \"Hairy_cell_leukemia\",\n    \"Hemophilia\",\n    \"Hepatoblastoma\",\n    \"Hodgkin's_lymphoma\",\n    \"Idiopathic_thrombocytopenic_purpura_for_adults\",\n    \"Immune_thrombocytopenia\",\n    \"Infantile_hemangioma\",\n    \"Intraocular_retinoblastoma\",\n    \"Kaposi_s_sarcoma\",\n    \"Kaposi's_sarcoma\",\n    \"Laryngeal_cancer\",\n    \"Laryngopharyngeal_cancer\",\n    \"Liver_cancer_(hepatocellular)\",\n    \"Lymphoma_from_mantle_cells\",\n    \"Malignant_neoplasm_of_the_bronchi_and_lungs\",\n    \"Malignant_neoplasms_of_the_lip\",\n    \"Malignant_neoplasms_of_bones_and_articular_cartilage_osteosarcoma_Ewing_s_sarcoma\",\n    \"Malignant_neoplasms_of_the_kidneys_renal_pelvis_ureter_other_and_unspecified_urinary_organs\",\n    \"Malignant_neoplasms_of_the_oral_cavity\",\n    \"Malignant_neoplasms_of_the_vagina\",\n    \"Malignant_tumors_of_the_salivary_glands\",\n    \"Marginal_zone_lymphoma\",\n    \"Medullary_thyroid_cancer\",\n    \"Melanoform_nevus\",\n    \"Melanoma_of_the_skin_and_mucous_membranes\",\n    \"Merkel_s_carcinoma\",\n    \"Mesothelioma_of_the_pleura_peritoneum_and_other_localizations\",\n    \"Multiple_myeloma\",\n    \"Myelodysplastic_syndrome_Myelodysplastic_myeloproliferative_neoplasms\",\n    \"Nasopharyngeal_cancer\",\n    \"Nasopharyngeal_cancer_children\",\n    \"Neuroblastoma\",\n    \"Neuroendocrine_tumors\",\n    \"Nodal_T-cell_lymphomas\",\n    \"Non-epithelial_ovarian_tumors\",\n    \"Other_plasmocellular_neoplasms\",\n    \"Ovarian_cancer_Fallopian_tube_cancer_Primary_peritoneal_cancer\",\n    \"Pancreatic_cancer\",\n    \"Penile_cancer\",\n    \"Ph-negative_myeloproliferative_neoplasms\",\n    \"Plasma_cell_leukemia\",\n    \"Primary_tumors_of_the_central_nervous_system\",\n    \"Prostate_cancer\",\n    \"Rare_coagulopathies_hereditary_deficiency_of_blood_coagulation_factors\",\n    \"Rectal_cancer\",\n    \"Retinoblastoma\",\n    \"Retroperitoneal_extraorgan_sarcomas\",\n    \"Secondary_malignant_neoplasm_of_the_brain_and_meninges\",\n    \"Soft_tissue_sarcomas\",\n    \"Solitary_(extramedullary)_plasmocytoma\",\n    \"Squamous_cell_carcinoma_of_the_anal_canal_anal_margin_and_perianal_skin\",\n    \"Squamous_cell_carcinoma_of_the_skin\",\n    \"Stomach_cancer\",\n    \"Thyroid_cancer\",\n    \"Tracheal_cancer\",\n    \"Trophoblastic_tumors\",\n    \"Tumors_of_the_mediastinum\",\n    \"Tumors_of_the_salivary_glands_in_children\",\n    \"Tumors_of_undetected_primary_localization\",\n    \"Urothelial_cancer_of_the_upper_urinary_tract\",\n    \"Uterine_body_cancer_and_uterine_sarcomas\",\n    \"Uveal_melanoma\",\n    \"Vulvar_cancer\",\n    \"Waldenstrom's_macroglobulinemia\", ]\n\nДля book_key выбери наиболее релевантную главу RUSSCO из этого списка (или null если ничего не подходит):\n[\n    \"General_principles_of_antitumor_drug_therapy\",\n    \"Features_of_antitumor_drug_treatment_in_elderly_patients\",\n    \"Features_of_drug_therapy_for_solid_tumors_during_pregnancy\",\n    \"Non-small_cell_lung_cancer\",\n    \"Small_cell_lung_cancer\",\n    \"Mesothelioma_of_the_pleura_peritoneum_and_other_localizations_1\",\n    \"Neuroendocrine_neoplasms_of_the_lungs_and_thymus\",\n    \"Thymic_epithelial_tumors\",\n    \"Head_and_neck_tumors\",\n    \"Primary_tumors_of_the_central_nervous_system_1\",\n    \"Metastatic_lesions_of_the_central_nervous_system\",\n    \"Cancer_of_the_esophagus_and_cardia_1\",\n    \"Stomach_cancer_1\",\n    \"Cancer_of_the_colon_rectosigmoid_junction_and_rectum\",\n    \"Cancer_of_the_small_intestine_and_ampulla_of_Vater\",\n    \"Squamous_cell_carcinoma_of_the_anal_canal_anal_margin_and_perianal_skin_1\",\n    \"Malignant_tumors_of_the_liver_and_biliary_system\",\n    \"Pancreatic_cancer_1\",\n    \"Gastrointestinal_stromal_tumors_1\",\n    \"Neuroendocrine_neoplasms_of_the_gastrointestinal_tract_and_pancreas\",\n    \"Pseudomyxoma_peritonei\",\n    \"Cancer_of_the_adrenal_cortex_(adrenocortical_cancer)_1\",\n    \"Breast_cancer_1\",\n    \"Ovarian_cancer_Fallopian_tube_cancer_Primary_peritoneal_cancer_1\",\n    \"Non-epithelial_ovarian_tumors_1\",\n    \"Borderline_ovarian_tumors_1\",\n    \"Cervical_cancer_1\",\n    \"Uterine_body_cancer_and_uterine_sarcomas_1\",\n    \"Trophoblastic_tumors_1\",\n    \"Cancer_of_the_kidney_parenchyma_1\",\n    \"Bladder_cancer_1\",\n    \"Prostate_cancer_1\",\n    \"Germinogenic_tumors_in_men_1\",\n    \"Melanoma_of_the_skin_and_mucous_membranes_1\",\n    \"Malignant_non-melanocytic_skin_tumors_(basal_cell_squamous_cell_Merkel_carcinoma)\",\n    \"Bone_sarcomas_1\",\n    \"Soft_tissue_sarcomas_1\",\n    \"Tumors_of_undetected_primary_localization_1\",\n]\n\nДля special_key — определи по истории болезни:\n- Если пациентка беременна → \"Features_of_drug_therapy_for_solid_tumors_during_pregnancy\"\n- Если пациент пожилой (60+ лет) → \"Features_of_antitumor_drug_treatment_in_elderly_patients\"\n- Иначе → null"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        320,
+        592
+      ],
+      "id": "db03be62-a9f6-4175-84c6-ea175217d0c8",
+      "name": "AI Agent",
+      "notesInFlow": false,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "model": "google/gemini-2.0-flash-001",
+        "options": {
+          "maxTokens": 200,
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        400,
+        816
+      ],
+      "id": "989722ef-17a0-4249-8b5c-5dc434affc71",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "6kLXtrCpJR770JWH",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c058a47d-3913-43df-9bce-9402f68f6d18",
+              "leftValue": "={{ $json.file_key }} ?? {{ $json.book_key }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        896,
+        496
+      ],
+      "id": "0626c52e-50a8-4398-af0f-0f9a59208dec",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        96,
+        576
+      ],
+      "id": "96fbd296-2809-460b-a17a-c9b39009c2de",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "download",
+        "path": "=/oncology_guidelines/{{ $('Code in JavaScript5').item.json.file_key }}.pdf"
+      },
+      "type": "n8n-nodes-base.dropbox",
+      "typeVersion": 1,
+      "position": [
+        1344,
+        208
+      ],
+      "id": "fc6d88ae-7514-4415-96af-eede790d105e",
+      "name": "Download a file",
+      "credentials": {
+        "dropboxOAuth2Api": {
+          "id": "ylDTbgHcVionbYsP",
+          "name": "Dropbox account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "afe58edd-3cd7-4471-a485-61194a2fafc0",
+              "leftValue": "={{ $('Code in JavaScript17').item.json.guidelines_text }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2464,
+        1056
+      ],
+      "id": "e923d503-bfc0-4aec-b046-66737e823e93",
+      "name": "If3"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=ИСТОРИЯ БОЛЕЗНИ ПАЦИЕНТА:\n{{ $('Merge').item.json.text }}\nТИП ОНКОЛОГИИ: {{ $('If2').item.json.oncology_code }},{{ $('If2').item.json.oncology_name }}\nКЛИНИЧЕСКИЕ РЕКОМЕНДАЦИИ МИНЗДРАВА:\n{{ $('Code in JavaScript17').item.json.guidelines_text }}\nКЛИНИЧЕСКИЕ РЕКОМЕНДАЦИИ RUSSCO:\n{{ $('Code in JavaScript17').item.json.book_text }}\nОСОБЫЕ КАТЕГОРИИ ПАЦИЕНТОВ:\n{{ $('Code in JavaScript17').item.json.special_text }}\nРОЛЬ ПОЛЬЗОВАТЕЛЯ: {{ $('Code in JavaScript15').item.json.role }}",
+        "options": {
+          "systemMessage": "=Ты — AI-помощник для проверки соответствия лечения онкологических пациентов клиническим рекомендациям.\n\nТвоя задача — ПРОВЕРЯТЬ и ОБЪЯСНЯТЬ соответствие уже проведённого или запланированного лечения стандартам.\nТы не назначаешь лечение, не предлагаешь альтернативы и не принимаешь клинических решений.\n\n---\n\n### ИСТОЧНИКИ (строгий приоритет)\n\n1. Рекомендации RUSSCO\n2. Клинические рекомендации Минздрава РФ\n3. Разделы рекомендаций для особых групп (пожилые 60+, беременные) — если применимо\n\nИспользуй ТОЛЬКО переданные источники.\nНе придумывай рекомендации, отсутствующие в них.\nЕсли источники расходятся — укажи это явно, без выбора стороны.\n\n---\n\n### СТРОГИЕ ОГРАНИЧЕНИЯ\n\n* Ты НЕ назначаешь лечение\n* Ты НЕ предлагаешь, что «нужно сделать»\n* Ты НЕ формулируешь клинические рекомендации от себя\n* Ты НЕ выходишь за рамки переданной нозологии\n* Ты НЕ добавляешь маркеры, стадии или признаки, которых нет в истории болезни\n\nДопустимы ТОЛЬКО формулировки:\n\n* «в рекомендациях указано»\n* «согласно клиническим рекомендациям»\n* «в представленных данных отсутствует»\n\n---\n\n### РЕЖИМ РАБОТЫ\n\nРежим задаётся параметром ROLE:\n\n* doctor — профессиональный медицинский отчёт\n* patient — упрощённый отчёт для пациента\n\nВАЖНО:\nОтвет формируется СТРОГО в одном режиме.\nЗАПРЕЩЕНО:\n\n* выводить оба режима одновременно\n* упоминать другой режим\n* дублировать блоки\n\nВ начале ответа ОБЯЗАТЕЛЬНО напиши ОДНУ строку:\n\n* «Текст для врача»\n  или\n* «Текст для пациента»\n\n---\n\n### ФОРМАТ ВЫВОДА (Telegram)\n\n* Только обычный текст\n* Без markdown\n* Абзацы, списки через дефис или цифры\n* Допустимы эмодзи\n* Названия препаратов — ЗАГЛАВНЫМИ буквами\n* Проценты указывай только если они уже рассчитаны\n\n---\n\n## ЛОГИКА АНАЛИЗА (ОБЯЗАТЕЛЬНА)\n\n### ШАГ 1. Извлечение клинических данных\n\nИзвлеки ТОЛЬКО то, что явно указано:\n\n* диагноз в рамках заданной нозологии\n* стадию и TNM (если есть)\n* морфологию\n* молекулярные маркеры (только если указаны)\n* возраст и принадлежность к особой группе\n* прошлое лечение\n* текущее / планируемое лечение\n* значимые сопутствующие состояния\n\nЕсли данных нет — явно укажи «не указано».\n\n---\n\n### ШАГ 2. Определение применимых рекомендаций\n\nИспользуй рекомендации ТОЛЬКО по данной нозологии.\nНе используй маркеры и алгоритмы из других онкологических заболеваний.\n\n---\n\n### ШАГ 3. Анализ ПРОШЛОГО лечения\n\nДля каждого этапа:\n\n* статус соответствия лечения клиническим рекомендациям: соответствует/частично соответствует/ не соответствует\n* пояснение строго со ссылкой на источник\n\nЕсли данных недостаточно —\nиспользуй ТОЛЬКО формулировку:\n«невозможно оценить из-за недостатка данных».\n\n---\n\n### ШАГ 4. Анализ ТЕКУЩЕГО лечения\n\nАналогично шагу 3.\n\n---\n\n### ШАГ 5. Фиксация результатов (КРИТИЧНО)\n\nПосле анализа ЗАФИКСИРУЙ:\n\n* статус прошлого лечения\n* процент прошлого лечения\n* статус текущего лечения\n* процент текущего лечения\n\nЭти значения:\n\n* НЕЛЬЗЯ пересчитывать\n* НЕЛЬЗЯ менять в patient-режиме\n* НЕЛЬЗЯ округлять или интерпретировать заново\n\n---\n\n### ДОПУСТИМЫЕ СТАТУСЫ (СТРОГО)\n\n* соответствует\n* частично соответствует\n* не соответствует\n* невозможно оценить из-за недостатка данных\n\n---\n\n## ФОРМАТ ВЫВОДА\n\n### ЕСЛИ ROLE = doctor\n\nТекст для врача\n\nИтоговое резюме\nПрошлое лечение: статус (соответствует/частично соответствует/ не соответствует)\nТекущее лечение: статус (соответствует/частично соответствует/ не соответствует)\n\nРаспознанные клинические данные\nКраткий список извлечённых данных.\n\nАнализ прошлого лечения\nДля каждого этапа:\n\n* статус\n* соответствует/частично соответствует/ не соответствует\n* пояснение с указанием источника\n\nАнализ текущего лечения\nАналогично.\n\nВыявленные несоответствия и риски\n\n* нарушения стандартов\n* расхождения между источниками\n* без прогнозов и советов\n\nОсобенности для группы пациента (если применимо)\n\n* ограничения рекомендаций\n* влияние на оценку\n\nОграничения анализа\n\n* какие данные отсутствуют\n* как это влияет на вывод\n\nИсточники\nНазвание, год, идентификатор (если указан).\n\n---\n\n### ЕСЛИ ROLE = patient\n\nТекст для пациента\n\nОбщий вывод\nПрошлое лечение: статус (соответствует/частично соответствует/ не соответствует)\nТекущее лечение: статус (соответствует/частично соответствует/ не соответствует)\n\nВАЖНО:\nИспользуй ТОЧНО те же статусы, что и в отчёте для врача.\nЗапрещено пересчитывать или менять значения.\n\nЧто соответствует стандартам\nПростым языком, без терминов.\n\nГде есть проблемы\nПрямо и понятно:\n\n* какие этапы не соответствуют\n* что важно обсудить с врачом\n\nОсобенности для вашей группы (если применимо)\nПростым языком.\n\nИсточники\nНазвания рекомендаций и годы.\n\nВажное напоминание\nАнализ носит справочный характер.\nОн не заменяет консультацию врача.\nВсе решения принимает лечащий врач.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        2688,
+        896
+      ],
+      "id": "38f536c7-ea10-48af-9108-07c1a4cfaedb",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "model": "google/gemini-2.0-flash-001",
+        "options": {
+          "temperature": 0.2
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        2768,
+        1120
+      ],
+      "id": "fefd5ba8-446f-4514-a358-9562f8f808ee",
+      "name": "OpenRouter Chat Model1",
+      "credentials": {
+        "openRouterApi": {
+          "id": "6kLXtrCpJR770JWH",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        3328,
+        912
+      ],
+      "id": "c356c33c-3ce2-4e45-a631-7edb1c4c98ba",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id ?? $('Telegram Trigger').item.json.callback_query.message.chat.id}}",
+        "text": "=❌ Не удалось определить тип онкологии. \nУбедитесь что файл содержит историю болезни онкологического пациента.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1120,
+        1168
+      ],
+      "id": "5195cac9-c0ea-4d36-968b-2bd8e281d246",
+      "name": "Send a text message11",
+      "webhookId": "62f9f2e9-be18-4101-9bbd-9e6c6edad5cf",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const content = $json.output;\nconst cleaned = content.replace(/```json|```/g, '').trim();\n\nlet parsed;\ntry {\n  parsed = JSON.parse(cleaned);\n} catch(e) {\n  throw new Error('AI Agent вернул невалидный JSON: ' + content);\n}\n\nreturn [{\n  json: {\n    oncology_code: parsed.code,\n    oncology_name: parsed.name,\n    file_key: parsed.file_key,\n    book_key: parsed.book_key || null,\n    special_key: parsed.special_key || null,\n    patient_history: $('Merge').first().json.text\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        496
+      ],
+      "id": "b714dd18-b530-4efc-8c0d-fb261a35cd42",
+      "name": "Code in JavaScript5",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=Тип онкологии определён: {{ $json.oncology_name }} Однако клинические рекомендации по данному типу ещё не загружены в систему.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2752,
+        1904
+      ],
+      "id": "f7b44625-8a8a-42aa-a4e4-9d70e52115f4",
+      "name": "Send a text message12",
+      "webhookId": "aed8148f-172d-4fd6-8fcc-26f07f896f51",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $json.output;\nconst triggerData = $('Telegram Trigger').first().json;\nconst chatId = triggerData.message?.chat?.id ?? triggerData.callback_query?.message?.chat?.id;\nconst maxLength = 4000;\nconst chunks = [];\n\nfor (let i = 0; i < text.length; i += maxLength) {\n  chunks.push({\n    json: {\n      chunk: text.slice(i, i + maxLength),\n      chat_id: chatId\n    }\n  });\n}\n\nreturn chunks;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3040,
+        912
+      ],
+      "id": "ac09fb20-583e-428b-91bc-86237d1c7cfe",
+      "name": "Code in JavaScript6"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id ?? $('Telegram Trigger').item.json.callback_query.message.chat.id}}",
+        "text": "={{ $json.chunk }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3616,
+        960
+      ],
+      "id": "aae95f14-cfe7-40b3-8bf2-eaa230db1224",
+      "name": "Send a text message13",
+      "webhookId": "699e49ef-2433-4ba8-8bd2-c75f6f0b2853",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const mammoth = require('mammoth');\n\nconst binaryData = await this.helpers.getBinaryDataBuffer(0, 'data');\n\nconst result = await mammoth.extractRawText({ buffer: binaryData });\n\nreturn [{ json: { text: result.value } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -128,
+        2432
+      ],
+      "id": "ea3d8019-891d-49e0-a4d1-8ca97b79f663",
+      "name": "Code in JavaScript7"
+    },
+    {
+      "parameters": {
+        "jsCode": "const triggerData = $('Telegram Trigger').first().json;\nconst userId = String(triggerData.message?.from?.id ?? triggerData.callback_query?.from?.id);\nconst workflowStaticData = $getWorkflowStaticData('global');\n\nworkflowStaticData[userId + '_state'] = 'chat';\nworkflowStaticData[userId + '_context'] = $('AI Agent1').first().json.output;\nworkflowStaticData[userId + '_history'] = $('Code in JavaScript5').first().json.patient_history;\n\nreturn [{ json: { success: true } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4064,
+        768
+      ],
+      "id": "9d776f8f-400e-4fc3-8f22-ff8b34ee22ca",
+      "name": "Code in JavaScript8"
+    },
+    {
+      "parameters": {
+        "jsCode": "const userId = String($json.message.from.id);\nconst chatId = String($json.message.chat.id);\nconst workflowStaticData = $getWorkflowStaticData('global');\n\nconst context = workflowStaticData[userId + '_context'] || '';\nconst role = workflowStaticData[userId + '_role'] || 'patient';\nconst patientHistory = workflowStaticData[userId + '_history'] || '';\n\nconst text = String($json.message.text || '');\nconst isStop = text.toLowerCase() === 'стоп' || text === '/stop';\n\nreturn [{ json: {\n  userId: userId,\n  chat_id: chatId,\n  message_text: text,\n  chat_context: String(context),\n  role: String(role),\n  patient_history: String(patientHistory),\n  is_stop: isStop\n}}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2464,
+        2192
+      ],
+      "id": "060777df-21d4-47e9-bbc9-40801b057bb0",
+      "name": "Code in JavaScript9"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d37de2d0-12d4-442d-8244-f1e2db96aef7",
+              "leftValue": "={{ $json.is_stop }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3040,
+        2192
+      ],
+      "id": "75dc966f-60c0-493a-af67-2e9b79d18723",
+      "name": "If4"
+    },
+    {
+      "parameters": {
+        "jsCode": "const userId = String($json.message.from.id);\nconst workflowStaticData = $getWorkflowStaticData('global');\nworkflowStaticData[userId + '_state'] = 'idle';\nworkflowStaticData[userId + '_context'] = '';\nreturn [{ json: { ...$json } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3328,
+        2336
+      ],
+      "id": "c0ecc3b6-4908-46aa-9112-f287fa1b521e",
+      "name": "Code in JavaScript10"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id }}",
+        "text": "✅ Диалог завершён. Если понадобится новый анализ — прикрепите файл.",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3616,
+        2336
+      ],
+      "id": "3051f7af-d5d1-422d-81ee-3226df5ed36f",
+      "name": "Send a text message14",
+      "webhookId": "7257b946-5d18-4e39-84ad-a7ec116c7c83",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Code in JavaScript9').item.json.message_text }}",
+        "options": {
+          "systemMessage": "=## Ты опытный врач-онколог. Пациент или врач уже получил план лечения и задаёт уточняющие вопросы. Отвечай только на основе предоставленных материалов.\n\n## РОЛЬ ПОЛЬЗОВАТЕЛЯ: \n{{ $('Code in JavaScript9').item.json.role }}\n* doctor: используй медицинскую терминологию, латинские названия препаратов\n* patient: объясняй простым языком без терминов, без медицинского жаргона\n\n### Ты отвечаешь ТОЛЬКО на заданный вопрос.\nЗапрещено:\n\n* повторять весь отчёт\n* менять статусы\n\n### Используй только:\n\n* уже выданный анализ\n* исходную историю болезни\n\n### Формат:\n\n* коротко\n* по существу\n* без новых выводов\n\n### ИСТОРИЯ БОЛЕЗНИ:\n{{ $('Code in JavaScript9').item.json.patient_history }}\n### ВЫДАННЫЙ ПЛАН ЛЕЧЕНИЯ:\n{{ $('Code in JavaScript9').item.json.chat_context }}\n\n## ФОРМАТ ОТВЕТА — СТРОГО:\n- Только обычный текст\n- Никакого markdown: никаких *, **, #, _, ~, `, []()\n- Списки только через дефис или цифры\n- Названия препаратов заглавными буквами\n- Абзацы разделяй пустой строкой\n- Не повторяй весь план лечения в ответе"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        3264,
+        1888
+      ],
+      "id": "6bc5c615-30b3-446f-a6db-dda340eb4421",
+      "name": "AI Agent2",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const rawText = $json.output;\n\n// Убираем markdown символы которые ломают Telegram\nconst text = rawText\n  .replace(/\\*\\*(.*?)\\*\\*/g, '$1')\n  .replace(/\\*(.*?)\\*/g, '$1')\n  .replace(/__(.*?)__/g, '$1')\n  .replace(/~~(.*?)~~/g, '$1')\n  .replace(/`{3}[\\s\\S]*?`{3}/g, '')\n  .replace(/`(.*?)`/g, '$1')\n  .replace(/\\|\\|(.*?)\\|\\|/g, '$1')\n  .replace(/#{1,6}\\s/g, '')\n  .replace(/\\[(.*?)\\]\\(.*?\\)/g, '$1')\n  .trim();\n\nconst chatId = $('Telegram Trigger').first().json.message.chat.id;\nconst maxLength = 4000;\nconst chunks = [];\n\nfor (let i = 0; i < text.length; i += maxLength) {\n  chunks.push({\n    json: {\n      chunk: text.slice(i, i + maxLength),\n      chat_id: chatId\n    }\n  });\n}\n\nreturn chunks;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3616,
+        2000
+      ],
+      "id": "d11e45d9-18f7-4e81-be92-0ca3d4bdfbd3",
+      "name": "Code in JavaScript11"
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": false
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        3840,
+        2000
+      ],
+      "id": "00607c07-b9db-4016-99b6-85a3c2f9fbcc",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Replace Me1",
+      "typeVersion": 1,
+      "position": [
+        4288,
+        2064
+      ],
+      "id": "67fbad39-f85c-4bf3-bebd-760c4675be38"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id }}",
+        "text": "={{ $json.chunk }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        4064,
+        2000
+      ],
+      "id": "3ec3e712-57df-4573-a645-465044493092",
+      "name": "Send a text message15",
+      "webhookId": "97b2e6fb-b13a-49da-86e2-ecda50e22079",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id }}",
+        "text": "✅ Диалог завершён.  Если понадобится новый анализ — нажмите \"Начать работу\" или прикрепите новый файл.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -128,
+        800
+      ],
+      "id": "ce5132f1-fbcd-4272-b9c1-be8ce249edf5",
+      "name": "Send a text message16",
+      "webhookId": "3d1f2f90-f56e-4f59-8bc3-c61aab8c3533",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const userId = String($json.callback_query.from.id);\nconst workflowStaticData = $getWorkflowStaticData('global');\nworkflowStaticData[userId + '_state'] = 'idle';\nworkflowStaticData[userId + '_context'] = '';\nreturn [{ json: { ...$json } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -352,
+        800
+      ],
+      "id": "439f0310-a659-4dda-afe6-5edf378e7368",
+      "name": "Code in JavaScript12"
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0.3
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        3280,
+        2112
+      ],
+      "id": "d9a2f0ec-6ac4-4787-8a29-e37d498b018d",
+      "name": "OpenRouter Chat Model2",
+      "credentials": {
+        "openRouterApi": {
+          "id": "6kLXtrCpJR770JWH",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id ?? $('Telegram Trigger').item.json.callback_query.message.chat.id}}",
+        "text": "Готовлю ответ...",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1120,
+        400
+      ],
+      "id": "771c8792-e272-4b01-8f9e-e2763540fd97",
+      "name": "Send a text message17",
+      "webhookId": "542c9228-b1bf-42d3-a27f-2699f2791ec3",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "deleteMessage",
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id ?? $('Telegram Trigger').item.json.callback_query.message.chat.id}}",
+        "messageId": "={{ $('Send a text message17').item.json.result.message_id }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3616,
+        768
+      ],
+      "id": "8739319e-c8db-4137-9940-ecc53898097e",
+      "name": "Delete a chat message",
+      "webhookId": "1904c123-5e0c-49dd-867b-398d74b27c10",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "jsCode": "const triggerData = $('Telegram Trigger').first().json;\nconst userId = String(triggerData.message?.from?.id);\nconst chatId = triggerData.message?.chat?.id;\nconst sd = $getWorkflowStaticData('global');\nconst role = sd[userId + '_role'] || null;\n\nconst newText = triggerData.message?.text || '';\n\n// Накапливаем сообщения в буфере\nconst existing = sd['buffer_' + userId] || '';\nsd['buffer_' + userId] = existing ? existing + '\\n' + newText : newText;\n\nreturn [{ json: {\n  userId,\n  chat_id: chatId,\n  role,\n  has_role: !!role,\n  buffer_text: sd['buffer_' + userId]\n}}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -576,
+        1760
+      ],
+      "id": "1ecdeff4-7b76-487a-a9b1-e2eee4e9e7ab",
+      "name": "Code in JavaScript14"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3720df38-9cf2-467c-9f23-6daa79faa55c",
+              "leftValue": "={{ $json.has_role }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1024,
+        2528
+      ],
+      "id": "38e6ce99-08c8-4c25-804d-9a2032f2da23",
+      "name": "If8"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "3720df38-9cf2-467c-9f23-6daa79faa55c",
+              "leftValue": "={{ $json.has_role }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -800,
+        1760
+      ],
+      "id": "f568abea-fa1b-41a0-80ec-32024a49473f",
+      "name": "If7"
+    },
+    {
+      "parameters": {
+        "jsCode": "const userId = String($json.callback_query.from.id);\nconst chatId = $json.callback_query.message.chat.id;\nconst sd = $getWorkflowStaticData('global');\nconst role = sd[userId + '_role'] || null;\n\nconst bufferText = sd['buffer_' + userId] || '';\nconst bufferEmpty = !bufferText.trim();\n\n// Очищаем буфер после чтения\nif (!bufferEmpty) {\n  delete sd['buffer_' + userId];\n}\n\nreturn [{ json: {\n  ...$json,\n  userId,\n  chat_id: chatId,\n  role,\n  has_role: !!role,\n  buffer_empty: bufferEmpty,\n  text: bufferText.trim()\n}}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -352,
+        384
+      ],
+      "id": "96bc89ce-cf02-47d3-97fd-bda6f450287b",
+      "name": "Code in JavaScript13"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "04563f89-0850-4439-be2a-8172f583ca14",
+              "leftValue": "={{ $json.buffer_empty }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -128,
+        384
+      ],
+      "id": "f6b66f5a-b007-4c2b-b5a5-a1c85baccaa7",
+      "name": "If6"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chat_id }}",
+        "text": "⚠️ Вы ещё не отправили текст. Напишите историю болезни и нажмите ✅ Готово",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        96,
+        384
+      ],
+      "id": "67f4fb19-252a-481f-96e3-a19476000360",
+      "name": "Send a text message18",
+      "webhookId": "c00741aa-a351-48d3-b6dc-4caee309d712",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id }}",
+        "text": "=Текст получен. Отправьте продолжение или нажмите кнопку ниже.",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "✅ Готово, обработать",
+                    "additionalFields": {
+                      "callback_data": "buffer_ready"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -352,
+        1760
+      ],
+      "id": "3a830a8c-ed46-480d-971a-7fe826f1376f",
+      "name": "Send a text message21",
+      "webhookId": "82e0ee5e-e1da-43d5-9227-da7d65164f2e",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id }}",
+        "text": "=Сначала нужно выбрать роль",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Врач",
+                    "additionalFields": {
+                      "callback_data": "role_doctor"
+                    }
+                  },
+                  {
+                    "text": "Пациент",
+                    "additionalFields": {
+                      "callback_data": "role_patient"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -800,
+        2608
+      ],
+      "id": "4bafc3ea-5c24-464a-be4b-6bccd52856ac",
+      "name": "Send a text message19",
+      "webhookId": "46e1ce93-ccd0-4b1e-9c8b-378ee612808a",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id }}",
+        "text": "=📋 **Выберите роль **\n\nВрач - анализ на профессиональном языке\nПациент - анализ на простом, понятном языке\n\n__Это нужно чтобы бот адаптировал ответ под вас__",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Врач",
+                    "additionalFields": {
+                      "callback_data": "role_doctor"
+                    }
+                  },
+                  {
+                    "text": "Пациент",
+                    "additionalFields": {
+                      "callback_data": "role_patient"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -576,
+        1952
+      ],
+      "id": "6340025c-c81d-4089-bc57-39191b0c2d47",
+      "name": "Send a text message20",
+      "webhookId": "46e1ce93-ccd0-4b1e-9c8b-378ee612808a",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id ?? $('Telegram Trigger').item.json.callback_query.message.chat.id}}",
+        "text": "=💬 Вы можете задать уточняющие вопросы по плану лечения.\nКогда закончите — нажмите кнопку ниже.",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "✅ Завершить диалог",
+                    "additionalFields": {
+                      "callback_data": "stop_chat"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        4288,
+        864
+      ],
+      "id": "11457974-270d-4881-9452-a0ee5587884d",
+      "name": "Send a text message22",
+      "webhookId": "e9283cc4-f79b-4e89-90ab-23e36a4162b0",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message.document.mime_type }}",
+                    "rightValue": "application/pdf",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "db79f618-45c2-4273-9e28-33a89c31adf2"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "pdf"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "6e017e21-cd43-437c-913b-bee9ee947d26",
+                    "leftValue": "={{ $('Telegram Trigger').item.json.message.document.mime_type }}",
+                    "rightValue": "application/docx",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "docx"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -352,
+        2400
+      ],
+      "id": "9f64bf63-dcb7-4a5c-bb41-e8a35606520f",
+      "name": "Switch2"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id }}",
+        "text": "=К сожалению файл такого типа, мы пока не можем обработать",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -128,
+        2624
+      ],
+      "id": "39bf3657-d856-46b9-948e-667ac6804ac3",
+      "name": "Send a text message23",
+      "webhookId": "82e0ee5e-e1da-43d5-9227-da7d65164f2e",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.result.chat.id }}",
+        "text": "=Вы попали в меню. Выберите действие:",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "📋 Поменять роль",
+                    "additionalFields": {
+                      "callback_data": "chage_role"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "🤖 Что умеет бот",
+                    "additionalFields": {
+                      "callback_data": "about"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "💬 Обратная связь",
+                    "additionalFields": {
+                      "callback_data": "feedback"
+                    }
+                  },
+                  {
+                    "text": "🛠 Техподдержка",
+                    "additionalFields": {
+                      "callback_data": "support"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        96,
+        800
+      ],
+      "id": "293212dd-fbe9-42e6-9e92-65a546e4279f",
+      "name": "Send a text message25",
+      "webhookId": "6bb53fb2-011a-498f-9008-799a0373ef17",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id }}",
+        "text": "=🚀 Начать работу",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -352,
+        0
+      ],
+      "id": "e4121665-8600-488a-97f5-a420d0ddd331",
+      "name": "Send a text message24",
+      "webhookId": "c5a33d13-5bdb-4a70-a44f-354a6370eaf9",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id }}",
+        "text": "=🤖 Что умеет бот",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -352,
+        192
+      ],
+      "id": "04e82dc2-935b-468c-bc2e-6bf087a1a1a6",
+      "name": "Send a text message26",
+      "webhookId": "c5a33d13-5bdb-4a70-a44f-354a6370eaf9",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id ?? $('Telegram Trigger').item.json.callback_query.message.chat.id}}",
+        "text": "К сожалению на сервере ии модели, произошел сбой, пожалуйста повторите ввод.",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        672,
+        1264
+      ],
+      "id": "859b7c7e-c722-46d6-8d28-2b29d16d18c5",
+      "name": "Send a text message27",
+      "webhookId": "60b95c3c-843c-4ac3-bfb0-b5277ff197f0",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Code in JavaScript9').item.json.chat_id }}",
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        3408,
+        2112
+      ],
+      "id": "e69d70ca-7844-4cfa-8522-478e012d133b",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "jsCode": "const userId = String($json.message.from.id);\nconst workflowStaticData = $getWorkflowStaticData('global');\nconst role = workflowStaticData[userId + '_role'] || null;\n\nreturn [{ json: {\n  ...$json,\n  role: role,\n  has_role: !!role\n}}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1024,
+        1760
+      ],
+      "id": "fb256874-5e99-4eff-af51-26fb426cb8b2",
+      "name": "Code in JavaScript16"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "download",
+        "path": "=/russco/{{ $('Code in JavaScript5').item.json.book_key }}.pdf"
+      },
+      "type": "n8n-nodes-base.dropbox",
+      "typeVersion": 1,
+      "position": [
+        1344,
+        400
+      ],
+      "id": "d343adfc-f22e-4384-a17f-33f71f9a39af",
+      "name": "Download a file1",
+      "credentials": {
+        "dropboxOAuth2Api": {
+          "id": "ylDTbgHcVionbYsP",
+          "name": "Dropbox account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "download",
+        "path": "=/special/{{ $('Code in JavaScript5').item.json.special_key }}.pdf"
+      },
+      "type": "n8n-nodes-base.dropbox",
+      "typeVersion": 1,
+      "position": [
+        1344,
+        1824
+      ],
+      "id": "1545fd67-4936-41a1-9cf7-9ff054597920",
+      "name": "Download a file2",
+      "credentials": {
+        "dropboxOAuth2Api": {
+          "id": "ylDTbgHcVionbYsP",
+          "name": "Dropbox account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        1568,
+        208
+      ],
+      "id": "f9e66eb6-2e36-4da6-a5d9-4741c932ba7f",
+      "name": "Extract from File1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const guidelines = $input.all()[0]?.json.text || '';\nconst book = $input.all()[1]?.json.text || '';\nconst special = $input.all()[2]?.json.text || '';\n\nreturn [{ json: {\n  ...$('Code in JavaScript5').first().json,\n  guidelines_text: guidelines,\n  book_text: book,\n  special_text: special\n}}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2016,
+        1056
+      ],
+      "id": "9f679049-9c4a-4661-b17c-98197a38c35b",
+      "name": "Code in JavaScript17"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        1568,
+        400
+      ],
+      "id": "cb037ae3-897a-4194-8334-f355ae278212",
+      "name": "Extract from File2",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        1568,
+        1824
+      ],
+      "id": "7440b1c9-6202-47b1-9469-81c685ce673b",
+      "name": "Extract from File3",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1792,
+        1040
+      ],
+      "id": "e01be6ba-bb43-4fe3-89ec-ba60c5c01875",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id ?? $('Telegram Trigger').item.json.callback_query.message.chat.id}}",
+        "text": "Осталось совсем чуть-чуть...",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2240,
+        1056
+      ],
+      "id": "f28308ea-64f5-4f77-ba02-a214962e87ee",
+      "name": "Send a text message28",
+      "webhookId": "542c9228-b1bf-42d3-a27f-2699f2791ec3",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "deleteMessage",
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id ?? $('Telegram Trigger').item.json.callback_query.message.chat.id}}",
+        "messageId": "={{ $('Send a text message28').item.json.result.message_id }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        3840,
+        768
+      ],
+      "id": "32f45986-a70c-41b0-a195-9a27d2523220",
+      "name": "Delete a chat message1",
+      "webhookId": "1904c123-5e0c-49dd-867b-398d74b27c10",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id ?? $('Telegram Trigger').item.json.callback_query.message.chat.id}}",
+        "text": "Готовлю ответ...",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2752,
+        2192
+      ],
+      "id": "9987db61-42ba-4b44-82f1-4d68b29d12c0",
+      "name": "Send a text message30",
+      "webhookId": "542c9228-b1bf-42d3-a27f-2699f2791ec3",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "deleteMessage",
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id ?? $('Telegram Trigger').item.json.callback_query.message.chat.id}}",
+        "messageId": "={{ $('Send a text message30').item.json.result.message_id }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        4064,
+        1808
+      ],
+      "id": "93d67cd8-9158-42d8-864d-23960fc43abf",
+      "name": "Delete a chat message2",
+      "webhookId": "1904c123-5e0c-49dd-867b-398d74b27c10",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4591f32a-0e26-45bc-8f27-7cd1fd15c961",
+              "leftValue": "={{ $('Telegram Trigger').item.json.message.text }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2240,
+        2096
+      ],
+      "id": "294cd7c3-7875-4a27-b263-03de7390f217",
+      "name": "If5"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query?.message?.chat?.id ?? $json.message?.chat?.id ?? $('Telegram Trigger').item.json.message?.chat?.id ?? $('Telegram Trigger').item.json.callback_query.message.chat.id}}",
+        "text": "Пожалуйста отправьте вопрос в текстовом формате.",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2464,
+        2000
+      ],
+      "id": "61eab9d2-71df-43d5-9194-6151f38d180d",
+      "name": "Send a text message29",
+      "webhookId": "c8f37da0-3335-4de1-92ef-dc23b1e99f3f",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const userId = String($json.message?.from?.id ?? $json.callback_query?.from?.id);\nconst workflowStaticData = $getWorkflowStaticData('global');\nconst role = workflowStaticData[userId + '_role'] || null;\n\nreturn [{ json: {\n  ...$json,\n  role: role,\n  has_role: !!role\n}}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2144,
+        1376
+      ],
+      "id": "9c3e3a43-abb2-4713-acbd-a5d995ea3cf5",
+      "name": "Code in JavaScript15"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.result.chat.id }}",
+        "text": "=📋 **Выберите роль **\n\nВрач - анализ на профессиональном языке\nПациент - анализ на простом, понятном языке\n\n__Это нужно чтобы бот адаптировал ответ под вас__",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Врач",
+                    "additionalFields": {
+                      "callback_data": "role_doctor"
+                    }
+                  },
+                  {
+                    "text": "Пациент",
+                    "additionalFields": {
+                      "callback_data": "role_patient"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -336,
+        624
+      ],
+      "id": "e570f751-f178-4e3f-8e92-e67f863e5b1e",
+      "name": "Send a text message31",
+      "webhookId": "46e1ce93-ccd0-4b1e-9c8b-378ee612808a",
+      "credentials": {
+        "telegramApi": {
+          "id": "SLma7sgP9XyP0kLv",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a text message24",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message26",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript12",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript13",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message31",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message8": {
+      "main": [
+        [
+          {
+            "node": "Send a text message9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send a text message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript2": {
+      "main": [
+        [
+          {
+            "node": "Send a text message4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript3": {
+      "main": [
+        [
+          {
+            "node": "Send a text message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript4": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message8",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If8",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message6": {
+      "main": [
+        [
+          {
+            "node": "Send a text message7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message27",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Send a text message17",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download a file": {
+      "main": [
+        [
+          {
+            "node": "Extract from File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Delete a chat message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript5": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript6": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message13": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript7": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript8": {
+      "main": [
+        [
+          {
+            "node": "Send a text message22",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript9": {
+      "main": [
+        [
+          {
+            "node": "Send a text message30",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If4": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript10",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript10": {
+      "main": [
+        [
+          {
+            "node": "Send a text message14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript11": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Delete a chat message2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message15": {
+      "main": [
+        [
+          {
+            "node": "Replace Me1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message16": {
+      "main": [
+        [
+          {
+            "node": "Send a text message25",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript12": {
+      "main": [
+        [
+          {
+            "node": "Send a text message16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message17": {
+      "main": [
+        [
+          {
+            "node": "Download a file",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Download a file1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Download a file2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete a chat message": {
+      "main": [
+        [
+          {
+            "node": "Delete a chat message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript14": {
+      "main": [
+        [
+          {
+            "node": "Send a text message21",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If8": {
+      "main": [
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message19",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If7": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript14",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message20",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript13": {
+      "main": [
+        [
+          {
+            "node": "If6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If6": {
+      "main": [
+        [
+          {
+            "node": "Send a text message18",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code in JavaScript7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message23",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message24": {
+      "main": [
+        [
+          {
+            "node": "Send a text message5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message26": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript16": {
+      "main": [
+        [
+          {
+            "node": "If7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download a file1": {
+      "main": [
+        [
+          {
+            "node": "Extract from File2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download a file2": {
+      "main": [
+        [
+          {
+            "node": "Extract from File3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript17": {
+      "main": [
+        [
+          {
+            "node": "Send a text message28",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File2": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Extract from File3": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message28": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete a chat message1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a text message30": {
+      "main": [
+        [
+          {
+            "node": "If4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete a chat message2": {
+      "main": [
+        [
+          {
+            "node": "Send a text message22",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If5": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript9",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message29",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript15": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "e5076732-6ad3-4745-8649-19a941fa6c67",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "8003ca067c15abf551727f599a5348055d86cfbcfdda7dbdb1d3604bf15b5853"
+  },
+  "id": "rrGJB44qPkWMjnev",
+  "tags": []
+}
